@@ -1,223 +1,416 @@
-There is a file you can reference named "sorpresa_Limey.html". Refer to this file by its name verbatim.
-[source: 1]
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorpresa Limey</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #fdfbf7;
+    font-family: 'Comic Sans MS', 'Sniglet', cursive, sans-serif;
+    margin: 0;
+    overflow: hidden;
+    flex-direction: column;
+    /* Un fondo sutil festivo */
+    background: radial-gradient(circle at center, #fffaf0 0%, #ffe6ea 100%);
+  }
+  
+  /* Confetti canvas */
+  #confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+  }
 
-/* Confetti canvas */
-#confetti {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-pointer-events: none;
-z-index: 50;
-}
+  /* Globos de fondo (Background Balloons) */
+  .bg-balloon {
+    position: absolute;
+    bottom: -100px;
+    width: 60px;
+    height: 80px;
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: floatUp 15s linear infinite;
+    z-index: 1;
+  }
+  .bg-balloon::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 25px;
+    width: 10px;
+    height: 10px;
+    background: inherit;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+  .bg-balloon::before {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    left: 29px;
+    width: 2px;
+    height: 40px;
+    background: rgba(0,0,0,0.2);
+  }
 
-/* Globos de fondo (Background Balloons) */
-.bg-balloon {
-position: absolute;
-bottom: -100px;
-width: 60px;
-height: 80px;
-border-radius: 50%;
-opacity: 0.6;
-animation: floatUp 15s linear infinite;
-z-index: 1;
-}
-.bg-balloon::after {
-content: '';
-position: absolute;
-bottom: -10px;
-left: 25px;
-width: 10px;
-height: 10px;
-background: inherit;
-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
-.bg-balloon::before {
-content: '';
-position: absolute;
-bottom: -40px;
-left: 29px;
-width: 2px;
-height: 40px;
-background: rgba(0,0,0,0.2);
-}
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-50vh) rotate(5deg); }
+    100% { transform: translateY(-110vh) rotate(-5deg); }
+  }
 
-@keyframes floatUp {
-0% { transform: translateY(0) rotate(-5deg); }
-50% { transform: translateY(-50vh) rotate(5deg); }
-100% { transform: translateY(-110vh) rotate(-5deg); }
-}
+  /* Decoraciones extras: Flores amarillas */
+  .flower {
+    position: absolute;
+    font-size: 30px;
+    opacity: 0.8;
+    animation: sway 4s ease-in-out infinite alternate;
+    z-index: 2;
+  }
 
-/* Decoraciones extras: Flores amarillas */
-.flower {
-position: absolute;
-font-size: 30px;
-opacity: 0.8;
-animation: sway 4s ease-in-out infinite alternate;
-z-index: 2;
-}
+  @keyframes sway {
+    0% { transform: rotate(-15deg); }
+    100% { transform: rotate(15deg); }
+  }
 
-@keyframes sway {
-0% { transform: rotate(-15deg); }
-100% { transform: rotate(15deg); }
-}
+  .card-container {
+    perspective: 1500px;
+    position: relative;
+    width: 320px;
+    height: 450px;
+    cursor: pointer;
+    z-index: 20;
+    transition: transform 1s ease;
+  }
 
-.card-container {
-perspective: 1500px;
-position: relative;
-width: 320px;
-height: 450px;
-cursor: pointer;
-z-index: 20;
-transition: transform 1s ease;
-}
+  /* Efecto de acercamiento al centro cuando se abre */
+  .card-container.is-open {
+    transform: scale(1.1);
+  }
 
-/* Efecto de acercamiento al centro cuando se abre */
-.card-container.is-open {
-transform: scale(1.1);
-}
+  .card {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Ajustamos el eje de rotación para que se vea más centrado */
+    transform-origin: left center;
+  }
 
-.card {
-width: 100%;
-height: 100%;
-position: absolute;
-transform-style: preserve-3d;
-transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-/* Ajustamos el eje de rotación para que se vea más centrado */
-transform-origin: left center;
-}
+  /* Cuando la tarjeta se abre, la trasladamos para que su interior quede al centro de la pantalla */
+  .card.open {
+    transform: rotateY(-180deg) translateX(-100%);
+  }
 
-/* Cuando la tarjeta se abre, la trasladamos para que su interior quede al centro de la pantalla */
-.card.open {
-transform: rotateY(-180deg) translateX(-100%);
-}
+  .card-face {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  }
 
-.card-face {
-width: 100%;
-height: 100%;
-position: absolute;
-backface-visibility: hidden;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-border-radius: 20px;
-box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-}
+  .card-front {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: white;
+    border: 6px solid #fff;
+    z-index: 2;
+  }
 
-.card-front {
-background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-color: white;
-border: 6px solid #fff;
-z-index: 2;
-}
+  .card-front h1 {
+    font-size: 34px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+  }
 
-.card-front h1 {
-font-size: 34px;
-text-shadow: 2px 2px 6px rgba(0,0,0,0.2);
-margin: 0;
-padding: 20px;
-text-align: center;
-}
+  .tap-instruction {
+    font-size: 16px;
+    background: rgba(255,255,255,0.3);
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin-top: 30px;
+    animation: pulse 1.5s infinite;
+  }
 
-.tap-instruction {
-font-size: 16px;
-background: rgba(255,255,255,0.3);
-padding: 10px 20px;
-border-radius: 20px;
-margin-top: 30px;
-animation: pulse 1.5s infinite;
-}
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
 
-@keyframes pulse {
-0% { transform: scale(1); }
-50% { transform: scale(1.08); }
-100% { transform: scale(1); }
-}
+  .card-inside {
+    background-color: #fffaf0;
+    transform: rotateY(180deg);
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    border: 4px dashed #ff9a9e;
+    overflow: hidden;
+    position: relative;
+  }
 
-.card-inside {
-background-color: #fffaf0;
-transform: rotateY(180deg);
-padding: 20px;
-box-sizing: border-box;
-text-align: center;
-border: 4px dashed #ff9a9e;
-overflow: hidden;
-position: relative;
-}
+  /* Adornos que aparecen al abrir */
+  .interior-decor {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1s ease 1s, transform 1s ease 1s;
+    font-size: 40px;
+  }
 
-/* Adornos que aparecen al abrir */
-.interior-decor {
-position: absolute;
-opacity: 0;
-transition: opacity 1s ease 1s, transform 1s ease 1s;
-font-size: 40px;
-}
+  .card.open .interior-decor {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 
-.card.open .interior-decor {
-opacity: 1;
-transform: translateY(0) scale(1);
-}
+  .dec-top-left { top: 10px; left: 10px; transform: translateY(-20px) scale(0); }
+  .dec-top-right { top: 10px; right: 10px; transform: translateY(-20px) scale(0); }
+  .dec-bottom-left { bottom: 10px; left: 10px; transform: translateY(20px) scale(0); }
+  .dec-bottom-right { bottom: 10px; right: 10px; transform: translateY(20px) scale(0); }
 
-.dec-top-left { top: 10px; left: 10px; transform: translateY(-20px) scale(0); }
-.dec-top-right { top: 10px; right: 10px; transform: translateY(-20px) scale(0); }
-.dec-bottom-left { bottom: 10px; left: 10px; transform: translateY(20px) scale(0); }
-.dec-bottom-right { bottom: 10px; right: 10px; transform: translateY(20px) scale(0); }
+  .message {
+    color: #ff6b81;
+    font-size: 38px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(255, 107, 129, 0.2);
+    z-index: 5;
+    position: relative;
+  }
 
-.message {
-color: #ff6b81;
-font-size: 38px;
-font-weight: bold;
-margin-bottom: 20px;
-line-height: 1.2;
-text-shadow: 2px 2px 4px rgba(255, 107, 129, 0.2);
-z-index: 5;
-position: relative;
-}
+  .cake-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    z-index: 5;
+  }
 
-.cake-container {
-position: relative;
-width: 150px;
-height: 150px;
-margin: 0 auto;
-z-index: 5;
-}
+  .cake {
+    font-size: 100px;
+    animation: float 3s ease-in-out infinite;
+  }
 
-.cake {
-font-size: 100px;
-animation: float 3s ease-in-out infinite;
-}
+  @keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(2deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+  }
 
-@keyframes float {
-0% { transform: translateY(0px) rotate(0deg); }
-50% { transform: translateY(-15px) rotate(2deg); }
-100% { transform: translateY(0px) rotate(0deg); }
-}
+  /* Player oculto para la música automática */
+  #youtube-player {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    visibility: hidden;
+  }
 
-/* Player oculto para la música automática */
-#youtube-player {
-position: absolute;
-top: -9999px;
-left: -9999px;
-visibility: hidden;
-}
+  /* Mensaje inspirador (reemplaza al de música) */
+  .inspiring-message {
+    margin-top: 20px;
+    font-size: 15px;
+    color: #ff6b81;
+    font-weight: normal;
+    font-style: italic;
+    z-index: 5;
+    position: relative;
+    opacity: 0;
+    transition: opacity 2s ease 1s;
+    line-height: 1.4;
+    padding: 0 10px;
+  }
+  
+  .card.open .inspiring-message {
+    opacity: 1;
+  }
 
-/* Mensaje inspirador (reemplaza al de música) */
-.inspiring-message {
-margin-top: 20px;
-font-size: 15px;
-color: #ff6b81;
-font-weight: normal;
-font-style: italic;
-z-index: 5;
-position: relative;
-opacity: 0;
-transition: opacity 2s ease 1s;
-line-height: 1.4;
-padding: 0 10px;
-}
+</style>
+</head>
+<body>
 
-.card.open .inspiring-message {
-opacity: 1;
-}
+<!-- Generando entorno con globos de colores -->
+<div class="bg-balloon" style="background:#ff9a9e; left: 10%; animation-delay: 0s;"></div>
+<div class="bg-balloon" style="background:#87cefa; left: 25%; animation-delay: 5s;"></div>
+<div class="bg-balloon" style="background:#ffd700; left: 50%; animation-delay: 2s;"></div>
+<div class="bg-balloon" style="background:#98fb98; left: 75%; animation-delay: 7s;"></div>
+<div class="bg-balloon" style="background:#dda0dd; left: 90%; animation-delay: 3s;"></div>
+
+<!-- Añadiendo flores amarillas para darle más vida -->
+<div class="flower" style="top: 10%; left: 15%; animation-delay: 0s;">🌼</div>
+<div class="flower" style="top: 80%; left: 85%; animation-delay: 1s;">🌻</div>
+<div class="flower" style="top: 30%; left: 80%; animation-delay: 0.5s;">🌼</div>
+<div class="flower" style="top: 70%; left: 20%; animation-delay: 1.5s;">🌻</div>
+
+<canvas id="confetti"></canvas>
+
+<!-- YouTube Iframe API container (oculto) -->
+<div id="youtube-player"></div>
+
+<div class="card-container" id="cardContainer">
+  <div class="card" id="card">
+    
+    <!-- Frente de la tarjeta -->
+    <div class="card-face card-front">
+      <h1>¡Tengo una sorpresa para ti!</h1>
+      <div class="tap-instruction">Toca para abrir 🎁</div>
+    </div>
+    
+    <!-- Interior de la tarjeta -->
+    <div class="card-face card-inside">
+      
+      <!-- Adornos interiores animados -->
+      <div class="interior-decor dec-top-left">🎈</div>
+      <div class="interior-decor dec-top-right">🎈</div>
+      <div class="interior-decor dec-bottom-left">🌼</div>
+      <div class="interior-decor dec-bottom-right">🌻</div>
+
+      <div class="message">Feliz<br>Cumpleaños<br>Limey!</div>
+      
+      <div class="cake-container">
+        <div class="cake">🎂</div>
+      </div>
+      
+      <!-- Mensaje bonito en lugar del texto de música -->
+      <div class="inspiring-message">
+        "Que este nuevo año de vida esté lleno de alegría, sueños por cumplir y momentos mágicos. ¡Nunca dejes de brillar!" ✨
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  // ==============================
+  // Configuración de YouTube API
+  // ==============================
+  let player;
+  function onYouTubeIframeAPIReady() {
+    // p5tT_qTphNY es un cover acústico instrumental de Yellow - Coldplay
+    player = new YT.Player('youtube-player', {
+      height: '1',
+      width: '1',
+      videoId: 'p5tT_qTphNY',
+      playerVars: {
+        'autoplay': 0,
+        'controls': 0,
+        'showinfo': 0,
+        'rel': 0,
+        'loop': 1,
+        'playlist': 'p5tT_qTphNY'
+      },
+      events: {
+        'onReady': onPlayerReady
+      }
+    });
+  }
+
+  let isPlayerReady = false;
+  function onPlayerReady(event) {
+    isPlayerReady = true;
+  }
+
+  // ==============================
+  // Lógica de Tarjeta y Confeti
+  // ==============================
+  const cardContainer = document.getElementById('cardContainer');
+  const card = document.getElementById('card');
+  let isCardOpen = false;
+
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  
+  let particles = [];
+  const colors = ['#ff9a9e', '#fecfef', '#ff6b81', '#fdfbf7', '#ffd700', '#87cefa'];
+
+  function createConfetti() {
+    for (let i = 0; i < 200; i++) {
+      particles.push({
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        r: Math.random() * 8 + 2,
+        dx: Math.random() * 30 - 15,
+        dy: Math.random() * -30 - 5,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        tilt: Math.floor(Math.random() * 10) - 10,
+        tiltAngle: 0,
+        tiltAngleInc: (Math.random() * 0.07) + 0.05
+      });
+    }
+  }
+
+  function drawConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((p, index) => {
+      p.tiltAngle += p.tiltAngleInc;
+      p.y += (Math.cos(p.tiltAngle) + 1 + p.r / 2) / 2;
+      p.x += Math.sin(p.tiltAngle) * 2;
+
+      ctx.beginPath();
+      ctx.lineWidth = p.r;
+      ctx.strokeStyle = p.color;
+      ctx.moveTo(p.x + p.tilt + p.r, p.y);
+      ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r);
+      ctx.stroke();
+
+      if (p.y > canvas.height) {
+        particles.splice(index, 1);
+      }
+    });
+    if(particles.length > 0) {
+        requestAnimationFrame(drawConfetti);
+    }
+  }
+
+  // Abrir tarjeta y activar animaciones + música
+  cardContainer.addEventListener('click', () => {
+    isCardOpen = !isCardOpen;
+    
+    if(isCardOpen) {
+        // Transformaciones para centrar la tarjeta abierta
+        card.classList.add('open');
+        cardContainer.classList.add('is-open');
+        
+        createConfetti();
+        drawConfetti();
+        
+        // Iniciar música
+        if(isPlayerReady) {
+            player.playVideo();
+        }
+    } else {
+        // Cerrar tarjeta y pausar música
+        card.classList.remove('open');
+        cardContainer.classList.remove('is-open');
+        if(isPlayerReady) {
+            player.pauseVideo();
+        }
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+</script>
+
+</body>
+</html>
