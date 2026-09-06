@@ -10,13 +10,12 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #fdfbf7;
+    /* Fondo blanco con un ligero tono crema muy elegante */
+    background: radial-gradient(circle at center, #ffffff 0%, #f4f1ea 100%);
     font-family: 'Comic Sans MS', 'Sniglet', cursive, sans-serif;
     margin: 0;
     overflow: hidden;
     flex-direction: column;
-    /* Un fondo sutil festivo */
-    background: radial-gradient(circle at center, #fffaf0 0%, #ffe6ea 100%);
   }
   
   /* Confetti canvas */
@@ -102,11 +101,9 @@
     position: absolute;
     transform-style: preserve-3d;
     transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    /* Ajustamos el eje de rotación para que se vea más centrado */
     transform-origin: left center;
   }
 
-  /* Cuando la tarjeta se abre, la trasladamos para que su interior quede al centro de la pantalla */
   .card.open {
     transform: rotateY(-180deg) translateX(-100%);
   }
@@ -121,19 +118,20 @@
     justify-content: center;
     align-items: center;
     border-radius: 20px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
   }
 
+  /* Frente de la tarjeta: Negros brillosos y borde dorado */
   .card-front {
-    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-    color: white;
-    border: 6px solid #fff;
+    background: linear-gradient(135deg, #111111 25%, #3a3a3a 50%, #111111 75%);
+    color: #ffd700;
+    border: 6px solid #ffd700;
     z-index: 2;
   }
 
   .card-front h1 {
     font-size: 34px;
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+    text-shadow: 2px 2px 8px rgba(255, 215, 0, 0.4);
     margin: 0;
     padding: 20px;
     text-align: center;
@@ -141,7 +139,9 @@
 
   .tap-instruction {
     font-size: 16px;
-    background: rgba(255,255,255,0.3);
+    background: rgba(255, 215, 0, 0.15);
+    color: #ffd700;
+    border: 1px solid #ffd700;
     padding: 10px 20px;
     border-radius: 20px;
     margin-top: 30px;
@@ -149,23 +149,23 @@
   }
 
   @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-    100% { transform: scale(1); }
+    0% { transform: scale(1); box-shadow: 0 0 5px rgba(255,215,0,0.2); }
+    50% { transform: scale(1.08); box-shadow: 0 0 15px rgba(255,215,0,0.6); }
+    100% { transform: scale(1); box-shadow: 0 0 5px rgba(255,215,0,0.2); }
   }
 
+  /* Interior de la tarjeta: Blanco con toques rosas */
   .card-inside {
-    background-color: #fffaf0;
+    background-color: #ffffff;
     transform: rotateY(180deg);
     padding: 20px;
     box-sizing: border-box;
     text-align: center;
-    border: 4px dashed #ff9a9e;
+    border: 4px dashed #ff9a9e; /* Un poco de rosa */
     overflow: hidden;
     position: relative;
   }
 
-  /* Adornos que aparecen al abrir */
   .interior-decor {
     position: absolute;
     opacity: 0;
@@ -183,13 +183,14 @@
   .dec-bottom-left { bottom: 10px; left: 10px; transform: translateY(20px) scale(0); }
   .dec-bottom-right { bottom: 10px; right: 10px; transform: translateY(20px) scale(0); }
 
+  /* Mensaje principal interior: Negro elegante con sombra dorada */
   .message {
-    color: #ff6b81;
+    color: #1a1a1a;
     font-size: 38px;
     font-weight: bold;
     margin-bottom: 20px;
     line-height: 1.2;
-    text-shadow: 2px 2px 4px rgba(255, 107, 129, 0.2);
+    text-shadow: 2px 2px 4px rgba(218, 165, 32, 0.6);
     z-index: 5;
     position: relative;
   }
@@ -213,7 +214,6 @@
     100% { transform: translateY(0px) rotate(0deg); }
   }
 
-  /* Player oculto para la música automática */
   #youtube-player {
     position: absolute;
     top: -9999px;
@@ -221,12 +221,12 @@
     visibility: hidden;
   }
 
-  /* Mensaje inspirador (reemplaza al de música) */
+  /* Mensaje inspirador en Rosa */
   .inspiring-message {
     margin-top: 20px;
     font-size: 15px;
-    color: #ff6b81;
-    font-weight: normal;
+    color: #ff6b81; /* Toque de rosa */
+    font-weight: bold;
     font-style: italic;
     z-index: 5;
     position: relative;
@@ -244,14 +244,13 @@
 </head>
 <body>
 
-<!-- Generando entorno con globos de colores -->
-<div class="bg-balloon" style="background:#ff9a9e; left: 10%; animation-delay: 0s;"></div>
-<div class="bg-balloon" style="background:#87cefa; left: 25%; animation-delay: 5s;"></div>
-<div class="bg-balloon" style="background:#ffd700; left: 50%; animation-delay: 2s;"></div>
-<div class="bg-balloon" style="background:#98fb98; left: 75%; animation-delay: 7s;"></div>
-<div class="bg-balloon" style="background:#dda0dd; left: 90%; animation-delay: 3s;"></div>
+<!-- Globos combinando Dorado, Negro, Blanco y Rosa -->
+<div class="bg-balloon" style="background:#ffd700; left: 10%; animation-delay: 0s;"></div>
+<div class="bg-balloon" style="background:#1a1a1a; left: 25%; animation-delay: 5s;"></div>
+<div class="bg-balloon" style="background:#ffffff; left: 50%; animation-delay: 2s; border: 1px solid #eee;"></div>
+<div class="bg-balloon" style="background:#ff9a9e; left: 75%; animation-delay: 7s;"></div>
+<div class="bg-balloon" style="background:#daa520; left: 90%; animation-delay: 3s;"></div>
 
-<!-- Añadiendo flores amarillas para darle más vida -->
 <div class="flower" style="top: 10%; left: 15%; animation-delay: 0s;">🌼</div>
 <div class="flower" style="top: 80%; left: 85%; animation-delay: 1s;">🌻</div>
 <div class="flower" style="top: 30%; left: 80%; animation-delay: 0.5s;">🌼</div>
@@ -286,7 +285,6 @@
         <div class="cake">🎂</div>
       </div>
       
-      <!-- Mensaje bonito en lugar del texto de música -->
       <div class="inspiring-message">
         "Que este nuevo año de vida esté lleno de alegría, sueños por cumplir y momentos mágicos. ¡Nunca dejes de brillar!" ✨
       </div>
@@ -302,7 +300,7 @@
   // ==============================
   let player;
   function onYouTubeIframeAPIReady() {
-    // p5tT_qTphNY es un cover acústico instrumental de Yellow - Coldplay
+    // Código para Coldplay - Paradise (Instrumental)
     player = new YT.Player('youtube-player', {
       height: '1',
       width: '1',
@@ -339,7 +337,8 @@
   canvas.height = window.innerHeight;
   
   let particles = [];
-  const colors = ['#ff9a9e', '#fecfef', '#ff6b81', '#fdfbf7', '#ffd700', '#87cefa'];
+  // Colores del confeti: Dorado, Dorado oscuro, Negro, Blanco, Rosa
+  const colors = ['#ffd700', '#daa520', '#1a1a1a', '#ffffff', '#ff9a9e'];
 
   function createConfetti() {
     for (let i = 0; i < 200; i++) {
@@ -385,19 +384,14 @@
     isCardOpen = !isCardOpen;
     
     if(isCardOpen) {
-        // Transformaciones para centrar la tarjeta abierta
         card.classList.add('open');
         cardContainer.classList.add('is-open');
-        
         createConfetti();
         drawConfetti();
-        
-        // Iniciar música
         if(isPlayerReady) {
             player.playVideo();
         }
     } else {
-        // Cerrar tarjeta y pausar música
         card.classList.remove('open');
         cardContainer.classList.remove('is-open');
         if(isPlayerReady) {
