@@ -10,7 +10,8 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: radial-gradient(circle at center, #ffffff 0%, #f4f1ea 100%);
+    /* Nuevo fondo elegante: Efecto reflector oscuro (centro cálido desvanecido a negro profundo) */
+    background: radial-gradient(circle at center, #382c30 0%, #0a0a0a 100%);
     font-family: 'Comic Sans MS', 'Sniglet', cursive, sans-serif;
     margin: 0;
     overflow: hidden;
@@ -35,9 +36,10 @@
     width: 60px;
     height: 80px;
     border-radius: 50%;
-    opacity: 0.6;
+    opacity: 0.7; /* Un poco más de opacidad para que resalten en lo oscuro */
     animation: floatUp 15s linear infinite;
     z-index: 1;
+    box-shadow: inset -5px -5px 15px rgba(0,0,0,0.3); /* Sombra 3D a los globos */
   }
   .bg-balloon::after {
     content: '';
@@ -56,7 +58,7 @@
     left: 29px;
     width: 2px;
     height: 40px;
-    background: rgba(0,0,0,0.2);
+    background: rgba(255,255,255,0.2); /* Cuerda sutilmente visible en fondo oscuro */
   }
 
   @keyframes floatUp {
@@ -68,7 +70,7 @@
   .flower {
     position: absolute;
     font-size: 30px;
-    opacity: 0.8;
+    opacity: 0.9;
     animation: sway 4s ease-in-out infinite alternate;
     z-index: 2;
   }
@@ -115,7 +117,8 @@
     justify-content: center;
     align-items: center;
     border-radius: 20px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    /* Sombra exterior más brillante para que destaque del fondo oscuro */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(218,165,32,0.15);
   }
 
   /* Frente de la tarjeta */
@@ -171,7 +174,7 @@
     left: -100%;
     width: 300%;
     height: 300%;
-    /* Degraddo cónico para los rayos desvanecidos */
+    /* Degradado cónico para los rayos desvanecidos */
     background: conic-gradient(
       from 0deg,
       #111111, #ffd700, #ffffff, #ff9a9e,
@@ -273,8 +276,9 @@
 
 <!-- Globos combinando Dorado, Negro, Blanco y Rosa -->
 <div class="bg-balloon" style="background:#ffd700; left: 10%; animation-delay: 0s;"></div>
-<div class="bg-balloon" style="background:#1a1a1a; left: 25%; animation-delay: 5s;"></div>
-<div class="bg-balloon" style="background:#ffffff; left: 50%; animation-delay: 2s; border: 1px solid #eee;"></div>
+<!-- El globo negro tiene un borde muy sutil para que no se pierda en la oscuridad -->
+<div class="bg-balloon" style="background:#1a1a1a; border: 1px solid #333; left: 25%; animation-delay: 5s;"></div>
+<div class="bg-balloon" style="background:#ffffff; left: 50%; animation-delay: 2s; border: 1px solid #ddd;"></div>
 <div class="bg-balloon" style="background:#ff9a9e; left: 75%; animation-delay: 7s;"></div>
 <div class="bg-balloon" style="background:#daa520; left: 90%; animation-delay: 3s;"></div>
 
